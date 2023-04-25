@@ -5,19 +5,31 @@ services:
     image: wordpress
     ports:
       - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordi
+      WORDPRESS_DB_PASSWORD: wordipw
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - ./wordpress:/var/www/html
     networks:
       - wordpress
 
   db:
     image: mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=rootpw 
-      - MYSQL_DATABASE=wordpress 
-      - MYSQL_USER=wordi 
-      - MYSQL_PASSWORD=wordipw
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+      MYSQL_DATABASE: wordpress 
+      MYSQL_USER: wordi 
+      MYSQL_PASSWORD: wordipw
+    volumes:
+      - ./db:/var/lib/mysql
     networks:
       - wordpress
 
+volumes:
+  wordpress:
+  db:
 
 networks:
   wordpress:
